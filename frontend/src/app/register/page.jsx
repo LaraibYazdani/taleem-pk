@@ -24,9 +24,9 @@ export default function Register() {
       let endpoint = "";
 
       if (formData.role === "university") {
-        endpoint = "http://localhost:5000/api/university/register";
+        endpoint = "https://taleem-pk.onrender.com/api/university/register";
       } else {
-        endpoint = "http://localhost:5000/api/auth/register";
+        endpoint = "https://taleem-pk.onrender.com/api/auth/register";
       }
 
       await axios.post(endpoint, formData);

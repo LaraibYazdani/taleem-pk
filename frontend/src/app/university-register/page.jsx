@@ -20,8 +20,8 @@ export default function UniversityRegister() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/university/register", formData);
-      alert("University registered successfully! Awaiting approval.");
+        await axios.post("https://taleem-pk.onrender.com/api/university/register", formData);
+        alert("University registered successfully! Awaiting approval.");
       router.push("/login");
     } catch (error) {
       console.error(error);

@@ -17,9 +17,9 @@ export default function Login() {
     try {
       let endpoint = "";
       if (role === "university") {
-        endpoint = "http://localhost:5000/api/university/login";
+        endpoint = "https://taleem-pk.onrender.com/api/university/login";
       } else {
-        endpoint = "http://localhost:5000/api/auth/login";
+        endpoint = "https://taleem-pk.onrender.com/api/auth/login";
       }
 
       const response = await axios.post(endpoint, { email, password });
