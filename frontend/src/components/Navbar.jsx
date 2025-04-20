@@ -2,59 +2,35 @@
 
 import Link from "next/link";
 
-export default function Navbar({ role }) {
+export default function Navbar() {
   return (
-    <nav className="bg-white shadow-md py-4 px-6 flex justify-between items-center fixed w-full top-0 z-50">
-      {/* Left: Logo */}
-      <Link href="/" className="text-2xl font-bold text-black">
-        Taleem.pk
-      </Link>
+    <nav className="flex justify-between items-center px-8 py-4 bg-white shadow-md fixed top-0 w-full z-50">
+      {/* Logo */}
+      <div className="text-2xl font-bold text-black">
+        <Link href="/">Taleem.pk</Link>
+      </div>
 
-      {/* Right: Menu */}
-      <div className="flex items-center space-x-6">
-        {role === "student" && (
-          <>
-            <Link href="/" className="text-gray-700 hover:text-black">
-              Home
-            </Link>
-            <Link href="/student-dashboard" className="text-gray-700 hover:text-black">
-              Universities
-            </Link>
-          </>
-        )}
+      {/* Menu */}
+      <div className="flex items-center space-x-8">
+        <Link href="/about" className="text-black hover:text-green-600 font-medium">About</Link>
+        <Link href="/admissions" className="text-black hover:text-green-600 font-medium">Admissions</Link>
+        <Link href="/academics" className="text-black hover:text-green-600 font-medium">Academics</Link>
+        <Link href="/student-life" className="text-black hover:text-green-600 font-medium">Student Life</Link>
+        <Link href="/universities" className="text-black hover:text-green-600 font-medium">Universities</Link>
 
-        {role === "university" && (
-          <>
-            <Link href="/" className="text-gray-700 hover:text-black">
-              Home
-            </Link>
-            <Link href="/university-dashboard" className="text-gray-700 hover:text-black">
-              Manage Programs
-            </Link>
-          </>
-        )}
-
-        {role === "admin" && (
-          <>
-            <Link href="/" className="text-gray-700 hover:text-black">
-              Home
-            </Link>
-            <Link href="/admin-dashboard" className="text-gray-700 hover:text-black">
-              Manage Universities
-            </Link>
-          </>
-        )}
-
-        {/* Logout Button */}
-        <button
-          onClick={() => {
-            localStorage.removeItem("token");
-            window.location.href = "/login";
-          }}
-          className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Logout
-        </button>
+        {/* Auth Buttons */}
+        <div className="flex space-x-4 ml-6">
+          <Link href="/login">
+            <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+              Login
+            </button>
+          </Link>
+          <Link href="/register">
+            <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+              Register
+            </button>
+          </Link>
+        </div>
       </div>
     </nav>
   );
