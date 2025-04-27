@@ -3,6 +3,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -24,10 +26,11 @@ export default function Register() {
       let endpoint = "";
 
       if (formData.role === "university") {
-        endpoint = "https://taleem-pk.onrender.com/api/university/register";
+        endpoint = `${BASE_URL}/api/university/register`;
       } else {
-        endpoint = "https://taleem-pk.onrender.com/api/auth/register";
+        endpoint = `${BASE_URL}/api/auth/register`;
       }
+      
 
       await axios.post(endpoint, formData);
       alert("Registered successfully!");

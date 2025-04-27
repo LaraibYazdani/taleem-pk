@@ -3,6 +3,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 
 export default function UniversityRegister() {
   const router = useRouter();
@@ -20,7 +22,7 @@ export default function UniversityRegister() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        await axios.post("https://taleem-pk.onrender.com/api/university/register", formData);
+      await axios.post(`${BASE_URL}/api/university/register`, formData);
         alert("University registered successfully! Awaiting approval.");
       router.push("/login");
     } catch (error) {

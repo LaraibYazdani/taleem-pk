@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 
 export default function AdminDashboard() {
   const [pendingUniversities, setPendingUniversities] = useState([]);
@@ -14,7 +16,7 @@ export default function AdminDashboard() {
 
   const fetchPendingUniversities = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/university/pending");
+      const response = await axios.get(`${BASE_URL}/api/university/pending`);
       setPendingUniversities(response.data);
     } catch (error) {
       console.error("Error fetching pending universities:", error);
@@ -23,7 +25,7 @@ export default function AdminDashboard() {
 
   const handleApprove = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/university/approve/${id}`);
+      await axios.put(`${BASE_URL}/api/university/approve/${id}`);
       fetchPendingUniversities(); // Refresh after approval
     } catch (error) {
       console.error("Error approving university:", error);
@@ -32,7 +34,7 @@ export default function AdminDashboard() {
 
   const handleReject = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/university/reject/${id}`);
+      await axios.delete(`${BASE_URL}/api/university/reject/${id}`);
       fetchPendingUniversities(); // Refresh after rejection
     } catch (error) {
       console.error("Error rejecting university:", error);

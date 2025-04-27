@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 
 export default function Login() {
   const router = useRouter();
@@ -17,10 +19,11 @@ export default function Login() {
     try {
       let endpoint = "";
       if (role === "university") {
-        endpoint = "https://taleem-pk.onrender.com/api/university/login";
+        endpoint = `${BASE_URL}/api/university/login`;
       } else {
-        endpoint = "https://taleem-pk.onrender.com/api/auth/login";
+        endpoint = `${BASE_URL}/api/auth/login`;
       }
+      
 
       const response = await axios.post(endpoint, { email, password });
 
