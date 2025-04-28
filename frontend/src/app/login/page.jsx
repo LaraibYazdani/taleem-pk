@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export default function Login() {
   const router = useRouter();
@@ -18,18 +18,23 @@ export default function Login() {
 
     try {
       let endpoint = "";
+
       if (role === "university") {
         endpoint = `${BASE_URL}/api/university/login`;
       } else {
         endpoint = `${BASE_URL}/api/auth/login`;
       }
-      
 
       const response = await axios.post(endpoint, { email, password });
 
       // Save token and user in local storage
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data));
+
+      // ⭐ Save universityId separately if role is university
+      if (role === "university" && response.data.university && response.data.university._id) {
+        localStorage.setItem("universityId", response.data.university._id);
+      }
 
       // Redirect based on role
       if (role === "student") {
@@ -50,7 +55,7 @@ export default function Login() {
       <div className="bg-white p-10 rounded-2xl shadow-lg w-full max-w-md">
         <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">Login</h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          
+
           {/* Role Selector */}
           <select
             value={role}

@@ -1,12 +1,27 @@
 "use client";
 
-import Navbar from "@/components/Navbar"; // Adjust the path if needed
-import Link from "next/link";
+import { useEffect, useState } from "react";
+import Navbar from "@/components/Navbar"; // Adjust if needed
+import UniversityProfileUpdate from "@/app/university-dashboard/components/UniversityProfileUpdate";
+import ManagePrograms from "@/app/university-dashboard/components/ManagePrograms";
 
 export default function UniversityDashboard() {
+  const [universityId, setUniversityId] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedUniversityId = localStorage.getItem("universityId");
+      setUniversityId(storedUniversityId);
+    }
+  }, []);
+
+  if (!universityId) {
+    return <p className="text-center mt-20 text-white">Loading...</p>;
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-white text-black">
-      
+
       {/* Navbar */}
       <Navbar role="university" />
 
@@ -20,49 +35,28 @@ export default function UniversityDashboard() {
 
         {/* Content */}
         <div className="relative z-10 text-white">
-          <h1 className="text-4xl font-bold mb-4">Welcome, To University Dashboard!</h1>
+          <h1 className="text-4xl font-bold mb-4">Welcome to Your Dashboard!</h1>
           <p className="text-lg max-w-2xl">
-            Browse through programs and university profile on Taleem.pk
+            Complete your University Profile and manage programs on Taleem.pk
           </p>
         </div>
       </section>
 
-      {/* University Info Section */}
+      {/* University Profile Update Section */}
       <section className="py-16 px-6 bg-gray-50">
-        <h2 className="text-3xl font-bold text-center mb-12">University Profile</h2>
+        <h2 className="text-3xl font-bold text-center mb-12">Manage University Profile</h2>
 
-        <div className="max-w-4xl mx-auto bg-gray-100 p-8 rounded-lg shadow">
-          <h3 className="text-2xl font-semibold mb-4">Lahore University</h3>
-          <p className="mb-4"><strong>Email:</strong> info@lahoreuniversity.com</p>
-          <p className="mb-6"><strong>Description:</strong> Leading private university offering excellence in education and research.</p>
-        </div>
+        <UniversityProfileUpdate universityId={universityId} />
       </section>
-
-      {/* Programs Section */}
+      
+      {/* Manage Programs Section */}
       <section className="py-16 px-6 bg-white">
-        <div className="flex justify-between items-center max-w-6xl mx-auto mb-8">
-          <h2 className="text-3xl font-bold">Programs Offered</h2>
-          <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded">
-            Add Program
-          </button>
-        </div>
+        <h2 className="text-3xl font-bold text-center mb-12">Manage University Programs</h2>
 
-        <div className="grid gap-8 grid-cols-1 md:grid-cols-2 max-w-6xl mx-auto">
-          
-          {/* Program Card */}
-          <div className="bg-gray-100 p-6 rounded-lg shadow hover:shadow-lg transition flex flex-col">
-            <h3 className="text-2xl font-semibold mb-2">Bachelor of Computer Science (BSCS)</h3>
-            <p className="text-gray-700">A 4-year program focusing on software development, AI, and data science.</p>
-          </div>
-
-          {/* Program Card */}
-          <div className="bg-gray-100 p-6 rounded-lg shadow hover:shadow-lg transition flex flex-col">
-            <h3 className="text-2xl font-semibold mb-2">Master of Business Administration (MBA)</h3>
-            <p className="text-gray-700">A 2-year MBA program specializing in Marketing, Finance, and HRM.</p>
-          </div>
-
-        </div>
+        <ManagePrograms universityId={universityId} />
       </section>
+
+
 
       {/* Footer */}
       <footer className="bg-gray-800 text-gray-300 p-6 text-center mt-auto">
