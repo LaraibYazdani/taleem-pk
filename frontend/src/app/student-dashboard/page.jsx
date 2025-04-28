@@ -9,17 +9,24 @@ import StudentProfileGuard from "./StudentProfileGuard";
 
 export default function StudentDashboard() {
   const [universities, setUniversities] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchApprovedUniversities();
   }, []);
 
   const fetchApprovedUniversities = async () => {
+    setLoading(true);
+    setError("");
     try {
       const response = await axios.get("http://localhost:5000/api/university/approved");
       setUniversities(response.data);
-    } catch (error) {
-      console.error("Error fetching universities:", error);
+    } catch (err) {
+      setError("Error fetching universities. Please try again later.");
+      console.error("Error fetching universities:", err);
+    } finally {
+      setLoading(false);
     }
   };
 

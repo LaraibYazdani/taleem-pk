@@ -58,6 +58,11 @@ export default function Home() {
             <h3 className="text-2xl font-semibold mb-4">Track Application Progress</h3>
             <p>Track your admission status and communication easily in your dashboard.</p>
           </div>
+          <div className="bg-purple-100 p-8 rounded-lg shadow hover:shadow-lg transition border-2 border-purple-300">
+            <h3 className="text-2xl font-semibold mb-4 text-purple-700">Taleem Connect <span className="text-xs bg-purple-200 text-purple-700 px-2 py-1 rounded ml-2">Proprietary</span></h3>
+            <p className="mb-4">Our smart matching engine instantly connects you to universities and programs that fit your profile. Discover your best options in seconds!</p>
+            <a href="/taleem-connect" className="inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded mt-2">Try Taleem Connect</a>
+          </div>
           <div className="bg-gray-100 p-8 rounded-lg shadow hover:shadow-lg transition">
             <h3 className="text-2xl font-semibold mb-4">Secure & Verified</h3>
             <p>All applications are securely stored and only visible to approved universities.</p>

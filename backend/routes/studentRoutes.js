@@ -3,14 +3,16 @@ const router = express.Router();
 const Student = require('../models/Student');
 const User = require('../models/User');
 
-// Middleware to check authentication (to be replaced with your actual auth middleware)
-const isAuthenticated = (req, res, next) => {
+const authenticate = require('../middleware/auth');
+
+// Only allow students
+const isStudent = (req, res, next) => {
   if (req.user && req.user.role === 'student') return next();
   return res.status(401).json({ message: 'Unauthorized' });
 };
 
 // Get current student's profile
-router.get('/profile', isAuthenticated, async (req, res) => {
+router.get('/profile', authenticate, isStudent, async (req, res) => {
   try {
     const student = await Student.findOne({ userId: req.user._id });
     if (!student) return res.status(404).json({ message: 'Profile not found' });
@@ -21,7 +23,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
 });
 
 // Create or update student profile
-router.post('/profile', isAuthenticated, async (req, res) => {
+router.post('/profile', authenticate, isStudent, async (req, res) => {
   try {
     const { fullName, city, highestQualification, finalPercentageOrCGPA, fieldOfInterest, profilePicUrl } = req.body;
     let student = await Student.findOne({ userId: req.user._id });
@@ -54,7 +56,7 @@ router.post('/profile', isAuthenticated, async (req, res) => {
 });
 
 // Endpoint for Taleem Connect (matching engine)
-router.get('/matches', isAuthenticated, async (req, res) => {
+router.get('/matches', authenticate, isStudent, async (req, res) => {
   try {
     const student = await Student.findOne({ userId: req.user._id });
     if (!student) return res.status(404).json({ message: 'Profile not found' });
@@ -105,7 +107,7 @@ router.get('/matches', isAuthenticated, async (req, res) => {
 });
 
 // Apply to a university program
-router.post('/apply', isAuthenticated, async (req, res) => {
+router.post('/apply', authenticate, isStudent, async (req, res) => {
   try {
     const { universityId, programId, programName } = req.body;
     const studentId = req.user._id;

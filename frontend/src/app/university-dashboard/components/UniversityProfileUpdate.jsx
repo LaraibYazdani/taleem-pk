@@ -102,6 +102,23 @@ export default function UniversityProfileUpdate({ universityId }) {
       });
 
       setSuccessMessage("Profile updated successfully!");
+      // Re-fetch university data to reflect new banner immediately
+      if (universityId) {
+        const response = await axios.get(`${BASE_URL}/api/university/profile/${universityId}`);
+        const data = response.data;
+        setFormData({
+          name: data.name || "",
+          city: data.city || "",
+          description: data.description || "",
+          websiteUrl: data.websiteUrl || "",
+          admissionLink: data.admissionLink || "",
+          feeStructure: data.feeStructure || "",
+          scholarshipsInfo: data.scholarshipsInfo || "",
+          hostelInfo: data.hostelInfo || "",
+          programs: data.programs || [],
+          newsUpdates: data.newsUpdates || [],
+        });
+      }
     } catch (error) {
       console.error(error);
       alert("Error updating profile");
@@ -136,6 +153,22 @@ export default function UniversityProfileUpdate({ universityId }) {
         <div className="flex flex-col">
           <label className="font-semibold mb-2">Upload University Banner</label>
           <input type="file" accept="image/*" onChange={(e) => setBannerImage(e.target.files[0])} className="border p-2" />
+          {/* Preview banner image if selected */}
+          {bannerImage && (
+            <img
+              src={URL.createObjectURL(bannerImage)}
+              alt="Banner Preview"
+              className="mt-2 w-full max-h-56 object-cover rounded shadow"
+            />
+          )}
+          {/* Show current banner if no new image selected */}
+          {!bannerImage && formData.bannerImage && (
+            <img
+              src={formData.bannerImage}
+              alt="Current Banner"
+              className="mt-2 w-full max-h-56 object-cover rounded shadow"
+            />
+          )}
         </div>
 
         {/* Gallery Upload */}

@@ -7,17 +7,24 @@ import Link from "next/link";
 
 export default function UniversitiesPage() {
   const [universities, setUniversities] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchApprovedUniversities();
   }, []);
 
   const fetchApprovedUniversities = async () => {
+    setLoading(true);
+    setError("");
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/university/approved`);
       setUniversities(response.data);
-    } catch (error) {
-      console.error("Error fetching universities:", error);
+    } catch (err) {
+      setError("Error fetching universities. Please try again later.");
+      console.error("Error fetching universities:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -52,24 +59,24 @@ export default function UniversitiesPage() {
         ) : (
           <div className="grid gap-8 grid-cols-1 md:grid-cols-3 max-w-6xl mx-auto">
             {universities.map((university) => (
-              <div key={university._id} className="bg-gray-100 p-6 rounded-lg shadow hover:shadow-lg transition flex flex-col items-center text-center">
-                {university.bannerImage ? (
-                  <img src={university.bannerImage} alt={university.name} className="h-40 w-full object-cover rounded mb-4" />
-                ) : (
-                  <div className="h-40 w-full bg-gray-300 rounded mb-4 flex items-center justify-center text-gray-500">
-                    No Banner Uploaded
-                  </div>
-                )}
-                <h3 className="text-2xl font-semibold mb-2">{university.name}</h3>
-                <p className="mb-6">{university.description || "No description provided."}</p>
-                {university.admissionLink && university.admissionLink.startsWith("http") ? (
-                  <Link href={university.admissionLink} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" target="_blank" rel="noopener noreferrer">
-                    Apply Now
-                  </Link>
-                ) : (
-                  <span className="text-gray-500 text-sm">No Application Link</span>
-                )}
-              </div>
+              <Link key={university._id} href={`/university/${university._id}`} className="block group">
+  <div className="bg-gray-100 p-6 rounded-lg shadow hover:shadow-lg transition flex flex-col items-center text-center group-hover:ring-2 group-hover:ring-green-600 cursor-pointer">
+    {university.bannerImage ? (
+      <img src={university.bannerImage} alt={university.name} className="h-40 w-full object-cover rounded mb-4" />
+    ) : (
+      <div className="h-40 w-full bg-gray-300 rounded mb-4 flex items-center justify-center text-gray-500">
+        No Banner Uploaded
+      </div>
+    )}
+    <h3 className="text-2xl font-semibold mb-2">{university.name}</h3>
+    <p className="mb-6">{university.description || "No description provided."}</p>
+    {university.admissionLink && university.admissionLink.startsWith("http") ? (
+      <span className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-block mt-2">Apply Now</span>
+    ) : (
+      <span className="text-gray-500 text-sm">No Application Link</span>
+    )}
+  </div>
+</Link>
             ))}
           </div>
         )}

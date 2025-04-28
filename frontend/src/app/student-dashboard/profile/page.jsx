@@ -25,8 +25,10 @@ export default function StudentProfile() {
     async function fetchProfile() {
       setLoading(true);
       try {
+        const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/student/profile`, {
-          credentials: "include"
+          credentials: "include",
+          headers: token ? { "Authorization": `Bearer ${token}` } : undefined
         });
         if (res.ok) {
           const data = await res.json();
@@ -78,16 +80,20 @@ export default function StudentProfile() {
       if (profilePic) {
         profilePicUrl = await uploadToCloudinary(profilePic);
       }
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/student/profile`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { "Authorization": `Bearer ${token}` } : {})
+        },
         credentials: "include",
         body: JSON.stringify({ ...form, profilePicUrl })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to save profile");
       setSuccess("Profile saved successfully!");
-      setTimeout(() => router.push("/student-dashboard"), 1200);
+      setTimeout(() => router.push("/"), 1200);
     } catch (err) {
       setError(err.message);
     }

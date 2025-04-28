@@ -17,6 +17,11 @@ export default function Navbar() {
         <Link href="/academics" className="text-black hover:text-green-600 font-medium">Academics</Link>
         <Link href="/student-life" className="text-black hover:text-green-600 font-medium">Student Life</Link>
         <Link href="/universities" className="text-black hover:text-green-600 font-medium">Universities</Link>
+<Link href="/taleem-connect">
+  <button className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded ml-2">
+    Taleem Connect
+  </button>
+</Link>
 
         {/* Auth Buttons */}
         <div className="flex space-x-4 ml-6">
