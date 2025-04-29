@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar"; // Adjust if needed
 import UniversityProfileUpdate from "@/app/university-dashboard/components/UniversityProfileUpdate";
+import UniversityApplicationsTable from "./ApplicationsTable";
 import ManagePrograms from "@/app/university-dashboard/components/ManagePrograms";
 
 export default function UniversityDashboard() {
@@ -56,11 +57,16 @@ export default function UniversityDashboard() {
         <ManagePrograms universityId={universityId} />
       </section>
 
+      {/* Applications Table */}
+      <section className="py-16 px-6 bg-white">
+        <h2 className="text-3xl font-bold text-center mb-12">Manage University Applications</h2>
 
+        <UniversityApplicationsTable universityId={universityId} />
+      </section>
 
       {/* Footer */}
       <footer className="bg-gray-800 text-gray-300 p-6 text-center mt-auto">
-        <p>© {new Date().getFullYear()} Taleem.pk. All rights reserved.</p>
+        <p> {new Date().getFullYear()} Taleem.pk. All rights reserved.</p>
       </footer>
 
     </div>

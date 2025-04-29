@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const University = require('../models/University');
 
-// Auth middleware for Express
+// Enhanced Auth middleware for Express
 const authenticate = async (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -18,9 +19,18 @@ const authenticate = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(jwtToken, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id);
+    let user;
+    if (decoded.role === 'university') {
+      user = await University.findById(decoded.id);
+    } else {
+      user = await User.findById(decoded.id);
+    }
     if (!user) return res.status(401).json({ message: 'User not found' });
-    req.user = user;
+    req.user = {
+      ...user.toObject(),
+      id: decoded.id,
+      role: decoded.role
+    };
     next();
   } catch (err) {
     return res.status(401).json({ message: 'Invalid or expired token' });

@@ -51,14 +51,18 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-6">
-      <div className="bg-white p-10 rounded-2xl shadow-lg w-full max-w-md">
-        <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">Login</h1>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-green-50 via-white to-blue-50 p-6">
+      <div className="w-full max-w-md">
+        <div className="flex flex-col items-center mb-8">
+          <span className="text-3xl font-extrabold text-[#101c2c] tracking-wide mb-2">Taleem.pk</span>
+        </div>
+        <div className="bg-white p-10 rounded-2xl shadow-2xl w-full">
+          <h1 className="text-3xl font-bold mb-8 text-center text-[#101c2c]">Login</h1>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
 
-          {/* Role Selector */}
-          <select
-            value={role}
+            {/* Role Selector */}
+            <select
+              value={role}
             onChange={(e) => setRole(e.target.value)}
             className="p-3 border rounded focus:outline-none focus:ring-2 focus:ring-green-500"
           >
@@ -95,6 +99,7 @@ export default function Login() {
             Login
           </button>
         </form>
+        </div>
       </div>
     </div>
   );

@@ -9,10 +9,7 @@ export default function Home() {
         <div className="text-2xl font-bold">Taleem.pk</div>
         <div className="space-x-6 hidden md:flex">
           <a href="#about" className="hover:underline">About</a>
-          <a href="#admissions" className="hover:underline">Admissions</a>
           <a href="/universities" className="text-gray-700 hover:text-black">Browse Universities</a>
-          <a href="#academics" className="hover:underline">Academics</a>
-          <a href="#student-life" className="hover:underline">Student Life</a>
 
           {/* New Buttons */}
           <div className="flex space-x-4 ml-6">

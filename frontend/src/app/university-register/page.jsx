@@ -13,6 +13,9 @@ export default function UniversityRegister() {
     email: "",
     password: "",
     description: "",
+    city: "",
+    websiteUrl: "",
+    contactNumber: ""
   });
 
   const handleChange = (e) => {
@@ -34,12 +37,15 @@ export default function UniversityRegister() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <h1 className="text-2xl mb-4">University Registration</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-80">
-        <input type="text" name="name" placeholder="University Name" onChange={handleChange} className="p-2 border" />
-        <input type="email" name="email" placeholder="Email" onChange={handleChange} className="p-2 border" />
-        <input type="password" name="password" placeholder="Password" onChange={handleChange} className="p-2 border" />
-        <textarea name="description" placeholder="Description" onChange={handleChange} className="p-2 border" />
-        <button type="submit" className="p-2 bg-blue-500 text-white">Register</button>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-80 bg-white shadow-md rounded-lg p-6">
+        <input type="text" name="name" placeholder="University Name" value={formData.name} onChange={handleChange} className="p-2 border rounded" required />
+        <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} className="p-2 border rounded" required />
+        <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} className="p-2 border rounded" required />
+        <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} className="p-2 border rounded" rows={3} />
+        <input type="text" name="city" placeholder="City" value={formData.city} onChange={handleChange} className="p-2 border rounded" />
+        <input type="text" name="websiteUrl" placeholder="Website URL" value={formData.websiteUrl} onChange={handleChange} className="p-2 border rounded" />
+        <input type="text" name="contactNumber" placeholder="Contact Number" value={formData.contactNumber} onChange={handleChange} className="p-2 border rounded" />
+        <button type="submit" className="p-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded">Register</button>
       </form>
     </div>
   );

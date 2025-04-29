@@ -122,6 +122,10 @@ export default function AdminDashboard() {
               <tr className="bg-gray-100">
                 <th className="py-2 px-4 text-left">Name</th>
                 <th className="py-2 px-4 text-left">Email</th>
+                <th className="py-2 px-4 text-left">Description</th>
+                <th className="py-2 px-4 text-left">City</th>
+                <th className="py-2 px-4 text-left">Website</th>
+                <th className="py-2 px-4 text-left">Contact</th>
                 <th className="py-2 px-4 text-left">Actions</th>
               </tr>
             </thead>
@@ -130,6 +134,10 @@ export default function AdminDashboard() {
                 <tr key={uni._id} className="border-b">
                   <td className="py-2 px-4">{uni.name}</td>
                   <td className="py-2 px-4">{uni.email}</td>
+                  <td className="py-2 px-4 max-w-xs whitespace-pre-line break-words">{uni.description || '-'}</td>
+                  <td className="py-2 px-4">{uni.city || '-'}</td>
+                  <td className="py-2 px-4">{uni.websiteUrl ? <a href={uni.websiteUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">{uni.websiteUrl}</a> : '-'}</td>
+                  <td className="py-2 px-4">{uni.contactNumber || '-'}</td>
                   <td className="py-2 px-4">
                     <button className="bg-green-600 text-white px-3 py-1 rounded mr-2" onClick={() => handleApprove(uni._id)} disabled={loading}>Approve</button>
                     <button className="bg-red-600 text-white px-3 py-1 rounded" onClick={() => handleReject(uni._id)} disabled={loading}>Delete</button>

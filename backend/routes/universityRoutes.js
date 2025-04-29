@@ -31,7 +31,7 @@ const upload = multer({ storage });
 // ===============================
 router.post('/register', async (req, res) => {
   try {
-    const { name, email, password, description } = req.body;
+    const { name, email, password, description, city, websiteUrl, contactNumber } = req.body;
 
     const existingUniversity = await University.findOne({ email });
     if (existingUniversity) {
@@ -45,6 +45,9 @@ router.post('/register', async (req, res) => {
       email,
       password: hashedPassword,
       description,
+      city,
+      websiteUrl,
+      contactNumber
     });
 
     await university.save();

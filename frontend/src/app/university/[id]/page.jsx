@@ -9,6 +9,12 @@ export default function UniversityDetailsPage({ params }) {
 
   const [university, setUniversity] = useState(null);
   const [loading, setLoading] = useState(true);
+  // Modal state (for application tracking)
+  const [showApplyModal, setShowApplyModal] = useState(false);
+  const [applyLoading, setApplyLoading] = useState(false);
+  const [applySuccess, setApplySuccess] = useState("");
+  const [applyError, setApplyError] = useState("");
+
 
   useEffect(() => {
     const fetchUniversity = async () => {
@@ -58,7 +64,25 @@ export default function UniversityDetailsPage({ params }) {
         <div className="grid gap-8 grid-cols-1 md:grid-cols-2 mb-12">
           {university.city && <InfoItem label="City" value={university.city} />}
           {university.websiteUrl && <InfoItem label="Website" value={<a href={university.websiteUrl} target="_blank" className="text-blue-600 underline">Visit Website</a>} />}
-          {university.admissionLink && <InfoItem label="Admission Portal" value={<a href={university.admissionLink} target="_blank" className="text-green-600 underline">Apply Now</a>} />}
+          {university.admissionLink && (
+  <InfoItem 
+    label="Admission Portal" 
+    value={
+      <>
+        <a href={university.admissionLink} target="_blank" className="text-green-600 underline mr-2">Apply Now</a>
+        <button
+          className="ml-2 px-4 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+          onClick={(e) => {
+            e.preventDefault();
+            setShowApplyModal(true);
+          }}
+        >
+          Track Application
+        </button>
+      </>
+    }
+  />
+)}
           {university.feeStructure && <InfoItem label="Fee Structure" value={university.feeStructure} />}
           {university.scholarshipsInfo && <InfoItem label="Scholarships" value={university.scholarshipsInfo} />}
           {university.hostelInfo && <InfoItem label="Hostel Info" value={university.hostelInfo} />}
@@ -90,6 +114,59 @@ export default function UniversityDetailsPage({ params }) {
               ))}
             </div>
           </>
+        )}
+        {/* Application Tracking Modal */}
+        {showApplyModal && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full relative">
+              <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl" onClick={() => setShowApplyModal(false)} disabled={applyLoading}>&times;</button>
+              <h3 className="text-xl font-bold mb-4 text-center">Did you apply to this university?</h3>
+              {applySuccess ? (
+                <div className="text-green-600 text-center font-semibold mb-2">{applySuccess}</div>
+              ) : (
+                <>
+                  {applyError && <div className="text-red-600 text-center mb-2">{applyError}</div>}
+                  <div className="flex justify-center gap-6 mt-4">
+                    <button
+                      className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+                      disabled={applyLoading}
+                      onClick={async () => {
+                        setApplyLoading(true);
+                        setApplyError("");
+                        try {
+                          const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+                          await axios.post(`${BASE_URL}/api/applications`, {
+                            universityId: university._id,
+                            universityName: university.name,
+                          }, {
+                            headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+                            withCredentials: true
+                          });
+                          setApplySuccess("Application recorded!");
+                          setTimeout(() => {
+                            setShowApplyModal(false);
+                            setApplySuccess("");
+                          }, 2000);
+                        } catch (err) {
+                          setApplyError(err.response?.data?.message || "Failed to record application");
+                        }
+                        setApplyLoading(false);
+                      }}
+                    >
+                      Yes
+                    </button>
+                    <button
+                      className="bg-gray-300 text-gray-800 px-6 py-2 rounded hover:bg-gray-400 transition"
+                      disabled={applyLoading}
+                      onClick={() => setShowApplyModal(false)}
+                    >
+                      No
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
         )}
       </section>
 

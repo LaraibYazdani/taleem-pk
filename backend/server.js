@@ -26,6 +26,10 @@ app.use('/api/university', universityRoutes);
 const studentRoutes = require('./routes/studentRoutes');
 app.use('/api/student', studentRoutes);
 
+// Application Routes
+const applicationRoutes = require('./routes/applicationRoutes');
+app.use('/api/applications', applicationRoutes);
+
 
 // Sample Route
 app.get('/', (req, res) => {

@@ -93,7 +93,13 @@ export default function StudentProfile() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to save profile");
       setSuccess("Profile saved successfully!");
-      setTimeout(() => router.push("/"), 1200);
+      // Optionally update user info in localStorage if backend returns it
+      if (data.user || data.updatedUser) {
+        localStorage.setItem("user", JSON.stringify(data.user || data.updatedUser));
+      }
+      setTimeout(() => {
+        window.location.href = "/student-dashboard";
+      }, 1200);
     } catch (err) {
       setError(err.message);
     }

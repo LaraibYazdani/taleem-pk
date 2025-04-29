@@ -29,6 +29,7 @@ const universitySchema = new mongoose.Schema({
   city: { type: String },
   logoUrl: { type: String },
   websiteUrl: { type: String },
+  contactNumber: { type: String },
   bannerImage: { type: String }, // Cloudinary URL for banner image
   programs: [programSchema],
   scholarshipsInfo: { type: String },

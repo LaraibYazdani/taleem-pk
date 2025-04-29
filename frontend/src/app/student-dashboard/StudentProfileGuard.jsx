@@ -1,24 +1,26 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function StudentProfileGuard({ children }) {
   const router = useRouter();
+  const [checking, setChecking] = useState(true);
 
   useEffect(() => {
     async function checkProfile() {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/student/profile`, {
+        // Add cache-busting param to ensure fresh fetch
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/student/profile?t=${Date.now()}`, {
           credentials: "include"
         });
         if (!res.ok) {
-          // If not found or error, redirect to profile completion
           router.replace("/student-dashboard/profile");
         } else {
           const data = await res.json();
-          // If required fields are missing, redirect
           if (!data.fullName || !data.city || !data.highestQualification || !data.finalPercentageOrCGPA || !data.fieldOfInterest) {
             router.replace("/student-dashboard/profile");
+          } else {
+            setChecking(false);
           }
         }
       } catch (err) {
@@ -26,9 +28,11 @@ export default function StudentProfileGuard({ children }) {
       }
     }
     checkProfile();
-    // Only run on mount
-    // eslint-disable-next-line
   }, []);
+
+  if (checking) {
+    return <div>Loading...</div>;
+  }
 
   return children;
 }
