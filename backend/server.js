@@ -9,7 +9,10 @@ const app = express();
 
 // Middlewares
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: [
+    'https://taleem-pk.vercel.app', // Production frontend
+    'http://localhost:3000'         // Local development
+  ],
   credentials: true,
 }));
 app.use(express.json());
